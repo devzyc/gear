@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 /**
  * @author zeng_yong_chang@163.com
  */
-object ValidationUtil {
+object Validations {
   /**
    * method:检查输入文本是否符合手机号码格式
    */

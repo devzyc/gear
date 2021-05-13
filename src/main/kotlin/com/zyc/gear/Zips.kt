@@ -9,7 +9,7 @@ import java.util.zip.ZipOutputStream
 
 /** @author zeng_yong_chang@163.com
  */
-object ZipUtil {
+object Zips {
   fun unZip(srcPath: String, destPath: String) {
     unZip(File(srcPath), File(destPath))
   }

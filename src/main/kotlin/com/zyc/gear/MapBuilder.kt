@@ -6,13 +6,13 @@ package com.zyc.gear
  * http://docs.guava-libraries.googlecode.com/git/javadoc/src-html/com/google/common/collect/ImmutableMap.Builder.html#line.217
  */
 class MapBuilder<K, V> {
-  private var map: MutableMap<K, V>?
+  private var map: MutableMap<K, V>
   
   constructor() {
     map = HashMap()
   }
   
-  constructor(m: MutableMap<K, V>?) {
+  constructor(m: MutableMap<K, V>) {
     map = m
   }
   
@@ -33,12 +33,12 @@ class MapBuilder<K, V> {
     return put(e)
   }
   
-  fun putAll(m: Map<out K, V>?): MapBuilder<K, V> {
+  fun putAll(m: Map<out K, V>): MapBuilder<K, V> {
     map!!.putAll(m!!)
     return this
   }
   
-  fun pa(m: Map<out K, V>?): MapBuilder<K, V> {
+  fun pa(m: Map<out K, V>): MapBuilder<K, V> {
     return putAll(m)
   }
   
@@ -59,7 +59,7 @@ class MapBuilder<K, V> {
     return remove(e)
   }
   
-  fun build(): Map<K, V>? {
+  fun build(): Map<K, V> {
     return map
   }
 }
