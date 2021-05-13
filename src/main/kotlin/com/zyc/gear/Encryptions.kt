@@ -3,7 +3,6 @@
 package com.zyc.gear
 
 import java.security.MessageDigest
-import java.util.*
 
 fun String.md5Digest(): String? {
   // 定义数字签名方法, 可用：MD5, SHA-1
@@ -24,7 +23,7 @@ fun ByteArray.byte2HexStr(): String {
     if (s.length == 1) {
       sb.append("0")
     }
-    sb.append(s.uppercase(Locale.getDefault()))
+    sb.append(s.toUpperCase())
   }
   return sb.toString()
 }
