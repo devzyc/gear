@@ -17,7 +17,7 @@ class MapBuilder<K, V> {
   }
   
   fun put(k: K, v: V): MapBuilder<K, V> {
-    map!![k] = v
+    map[k] = v
     return this
   }
   
@@ -34,7 +34,7 @@ class MapBuilder<K, V> {
   }
   
   fun putAll(m: Map<out K, V>): MapBuilder<K, V> {
-    map!!.putAll(m!!)
+    map.putAll(m)
     return this
   }
   
@@ -43,7 +43,7 @@ class MapBuilder<K, V> {
   }
   
   fun remove(k: K): MapBuilder<K, V> {
-    map!!.remove(k)
+    map.remove(k)
     return this
   }
   
