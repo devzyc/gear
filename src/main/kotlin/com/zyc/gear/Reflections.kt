@@ -25,7 +25,7 @@ object Reflections {
   fun invokeMethod(
     receiver: Any,
     methodName: String,
-    paramTypes: Array<Class<*>>,
+    paramTypes: Array<Class<*>>?,
     vararg paramValues: Any
   ): Any {
     return invokeMethodInternal(receiver, receiver.javaClass, methodName, paramTypes, *paramValues)
