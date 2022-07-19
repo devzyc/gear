@@ -63,7 +63,10 @@ object Reflections {
       else
         clazz.getDeclaredMethod(methodName, *paramTypes)
     method.isAccessible = true
-    return method.invoke(receiver, *paramValues)
+    return if (paramTypes == null)
+      method.invoke(receiver)
+    else
+      method.invoke(receiver, *paramValues)
   }
   
   //////////////////////////////////////////////////////////////////////////////////////////////////
