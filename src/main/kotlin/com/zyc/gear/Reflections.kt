@@ -54,10 +54,14 @@ object Reflections {
     receiver: Any?,
     clazz: Class<*>,
     methodName: String,
-    paramTypes: Array<Class<*>>,
+    paramTypes: Array<Class<*>>?,
     vararg paramValues: Any
   ): Any {
-    val method = clazz.getDeclaredMethod(methodName, *paramTypes)
+    val method =
+      if (paramTypes == null)
+        clazz.getDeclaredMethod(methodName)
+      else
+        clazz.getDeclaredMethod(methodName, *paramTypes)
     method.isAccessible = true
     return method.invoke(receiver, *paramValues)
   }
