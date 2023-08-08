@@ -9,6 +9,25 @@ import java.lang.reflect.InvocationTargetException
  * Created by "zeng_yong_chang@163.com".
  */
 object Reflections {
+  fun <T> getFieldValue(obj: Any?, fieldName: String?): T? {
+    if (obj == null || fieldName.isNullOrEmpty()) {
+      return null
+    }
+    var clazz: Class<*> = obj.javaClass
+    while (clazz != Any::class.java) {
+      try {
+        val field = clazz.getDeclaredField(fieldName)
+        field.isAccessible = true
+        @Suppress("UNCHECKED_CAST")
+        return field[obj] as T
+      } catch (e: Exception) {
+        e.printStackTrace()
+      }
+      clazz = clazz.superclass
+    }
+    return null
+  }
+  
   fun <T> getField(fieldName: String, receiver: Any): T? {
     return try {
       getValue(receiver, fieldName) as T
