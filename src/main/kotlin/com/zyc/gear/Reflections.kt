@@ -9,10 +9,7 @@ import java.lang.reflect.InvocationTargetException
  * Created by "zeng_yong_chang@163.com".
  */
 object Reflections {
-  fun <T> getFieldValue(obj: Any?, fieldName: String?): T? {
-    if (obj == null || fieldName.isNullOrEmpty()) {
-      return null
-    }
+  fun <T> getFieldValue(obj: Any, fieldName: String): T? {
     var clazz: Class<*> = obj.javaClass
     while (clazz != Any::class.java) {
       try {
