@@ -32,7 +32,7 @@ object Reflections {
         return null
     }
 
-    fun setFieldValue(
+    fun setValue(
         fieldName: String,
         value: Any?,
         obj: Any? = null,
