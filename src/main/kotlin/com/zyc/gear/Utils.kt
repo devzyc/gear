@@ -16,119 +16,119 @@ import java.util.*
 /**
  * created by zeng_yong_chang@163.com
  */
-object Utils {
-  
-  fun printJson(src: Any) {
-    val writer: JsonWriter
-    try {
-      writer = JsonWriter(PrintWriter(System.out))
-      writer.setIndent("  ")
-      GsonBuilder().setPrettyPrinting().create().toJson(src, src.javaClass, writer)
-      writer.close()
-    } catch (e: IOException) {
-      e.printStackTrace()
-    }
+
+fun logRed(input: String) = println("\u001B[31m$input\u001B[0m")
+
+fun printJson(src: Any) {
+  val writer: JsonWriter
+  try {
+    writer = JsonWriter(PrintWriter(System.out))
+    writer.setIndent("  ")
+    GsonBuilder().setPrettyPrinting().create().toJson(src, src.javaClass, writer)
+    writer.close()
+  } catch (e: IOException) {
+    e.printStackTrace()
   }
-  
-  fun replaceNullWithEmptyStr(input: Any) {
-    Reflections.getAllFields(input.javaClass)
-      .forEach { f ->
-        f.isAccessible = true
-        try {
-          if (f.type.isAssignableFrom(String::class.java) && f.get(input) == null) {
-            setValue(f.name, "", input)
-          }
-        } catch (e: IllegalAccessException) {
-          e.printStackTrace()
-        } catch (e: NoSuchFieldException) {
-          e.printStackTrace()
+}
+
+fun replaceNullWithEmptyStr(input: Any) {
+  Reflections.getAllFields(input.javaClass)
+    .forEach { f ->
+      f.isAccessible = true
+      try {
+        if (f.type.isAssignableFrom(String::class.java) && f.get(input) == null) {
+          setValue(f.name, "", input)
         }
-      }
-  }
-  
-  fun classNameOf(ref: Any): String {
-    return ref.javaClass.simpleName
-  }
-  
-  fun discardToHourZero(c: Calendar) {
-    c.set(Calendar.HOUR_OF_DAY, 0)
-    c.set(Calendar.MINUTE, 0)
-    c.set(Calendar.SECOND, 0)
-    c.set(Calendar.MILLISECOND, 0)
-  }
-  
-  fun getMonthAndDayStr(calendar: Calendar): String {
-    return Times.format("MM月dd日", calendar.timeInMillis)
-  }
-  
-  fun close(vararg closeables: Closeable?) {
-    for (closeable in closeables) {
-      if (closeable != null) {
-        try {
-          closeable.close()
-        } catch (e: IOException) {
-          e.printStackTrace()
-        }
+      } catch (e: IllegalAccessException) {
+        e.printStackTrace()
+      } catch (e: NoSuchFieldException) {
+        e.printStackTrace()
       }
     }
-  }
-  
-  fun toTwoBitDigit(num: Int): String {
-    return String.format("%02d", num)
-  }
-  
-  /**
-   * Caution: the parameter "total"(divisor) should not be 0 !
-   */
-  fun getPercent(num: Long, total: Long): Int {
-    return (num.toFloat() / total * 100).toInt()
-  }
-  
-  fun getProgressValue(totalBytes: Long, currentBytes: Long): Int {
-    return if (totalBytes == -1L) {
-      0
-    } else (currentBytes * 100 / totalBytes).toInt()
-  }
-  
-  /**
-   * All field should be serializable. If field is not primitive, that class's field also should be
-   * serializable.
-   */
-  fun sizeOf(`object`: Any?): Int {
-    if (`object` == null) return 0
-    val baos = ByteArrayOutputStream()
-    try {
-      val oos = ObjectOutputStream(baos)
-      oos.writeObject(`object`)
-      oos.flush()
-      oos.close()
-    } catch (e: IOException) {
-      e.printStackTrace()
-      return 0
+}
+
+fun classNameOf(ref: Any): String {
+  return ref.javaClass.simpleName
+}
+
+fun discardToHourZero(c: Calendar) {
+  c.set(Calendar.HOUR_OF_DAY, 0)
+  c.set(Calendar.MINUTE, 0)
+  c.set(Calendar.SECOND, 0)
+  c.set(Calendar.MILLISECOND, 0)
+}
+
+fun getMonthAndDayStr(calendar: Calendar): String {
+  return Times.format("MM月dd日", calendar.timeInMillis)
+}
+
+fun close(vararg closeables: Closeable?) {
+  for (closeable in closeables) {
+    if (closeable != null) {
+      try {
+        closeable.close()
+      } catch (e: IOException) {
+        e.printStackTrace()
+      }
     }
-    val byteArray: ByteArray = baos.toByteArray()
-    return byteArray.size * 6 / 5
   }
-  
-  fun getPathIfCould(input: String?): String? {
-    var path = input
-    try {
-      path = URL(path).path
-    } catch (e: MalformedURLException) {
-      e.printStackTrace()
-    }
-    return path
+}
+
+fun toTwoBitDigit(num: Int): String {
+  return String.format("%02d", num)
+}
+
+/**
+ * Caution: the parameter "total"(divisor) should not be 0 !
+ */
+fun getPercent(num: Long, total: Long): Int {
+  return (num.toFloat() / total * 100).toInt()
+}
+
+fun getProgressValue(totalBytes: Long, currentBytes: Long): Int {
+  return if (totalBytes == -1L) {
+    0
+  } else (currentBytes * 100 / totalBytes).toInt()
+}
+
+/**
+ * All field should be serializable. If field is not primitive, that class's field also should be
+ * serializable.
+ */
+fun sizeOf(`object`: Any?): Int {
+  if (`object` == null) return 0
+  val baos = ByteArrayOutputStream()
+  try {
+    val oos = ObjectOutputStream(baos)
+    oos.writeObject(`object`)
+    oos.flush()
+    oos.close()
+  } catch (e: IOException) {
+    e.printStackTrace()
+    return 0
   }
-  
-  fun cacheFileIsExistedAndFresh(cacheFile: File, staleMs: Int): Boolean {
-    return cacheFile.exists() && System.currentTimeMillis() - cacheFile.lastModified() < staleMs
+  val byteArray: ByteArray = baos.toByteArray()
+  return byteArray.size * 6 / 5
+}
+
+fun getPathIfCould(input: String?): String? {
+  var path = input
+  try {
+    path = URL(path).path
+  } catch (e: MalformedURLException) {
+    e.printStackTrace()
   }
-  
-  fun <T> typeFor(clazz: Class<T>?): Type {
-    return `$Gson$Types`.newParameterizedTypeWithOwner(null, clazz)
-  }
-  
-  fun typeFor(typeOfTemplate: Type?, typeOfTemplateArg: Type?): ParameterizedType {
-    return `$Gson$Types`.newParameterizedTypeWithOwner(null, typeOfTemplate, typeOfTemplateArg)
-  }
+  return path
+}
+
+fun cacheFileIsExistedAndFresh(cacheFile: File, staleMs: Int): Boolean {
+  return cacheFile.exists() && System.currentTimeMillis() - cacheFile.lastModified() < staleMs
+}
+
+fun <T> typeFor(clazz: Class<T>?): Type {
+  return `$Gson$Types`.newParameterizedTypeWithOwner(null, clazz)
+}
+
+fun typeFor(typeOfTemplate: Type?, typeOfTemplateArg: Type?): ParameterizedType {
+  return `$Gson$Types`.newParameterizedTypeWithOwner(null, typeOfTemplate, typeOfTemplateArg)
 }
