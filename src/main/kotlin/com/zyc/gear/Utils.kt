@@ -18,21 +18,6 @@ import java.util.*
  */
 object Utils {
   
-  /** 逗号拼接  */
-  @JvmOverloads
-  fun list2Concatenated(list: List<String?>, hasOneSpace: Boolean = false): String {
-    val sb = StringBuilder()
-    for (i in 0 until list.size - 1) {
-      sb.append(list[i])
-      sb.append(",")
-      if (hasOneSpace) {
-        sb.append(" ")
-      }
-    }
-    sb.append(list[list.size - 1])
-    return sb.toString()
-  }
-  
   fun printJson(src: Any) {
     val writer: JsonWriter
     try {
@@ -51,7 +36,7 @@ object Utils {
         f.isAccessible = true
         try {
           if (f.type.isAssignableFrom(String::class.java) && f.get(input) == null) {
-            setValue(input, f.name, "")
+            setValue(f.name, "", input)
           }
         } catch (e: IllegalAccessException) {
           e.printStackTrace()
